@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>הספרייה האישית - מחולל תוכניות שיעור</title>
+  <!-- Bootstrap RTL CSS -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.rtl.min.css" />
+  <!-- FontAwesome for icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+  <style>
+    body { background-color: #f0f2f5; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
+    .navbar-brand { font-size: 1.5rem; font-weight: bold; }
+    .hero { background: #007bff; color: #fff; padding: 2rem 0; text-align: center; }
+    .card { border-radius: 8px; margin-bottom: 1.5rem; }
+    .dashboard-container { padding: 2rem 0; }
+  </style>
+</head>
+<body>
+  <!-- Navigation Bar -->
+  <nav class="navbar navbar-expand-lg navbar-dark bg-dark sticky-top">
+    <div class="container">
+      <a class="navbar-brand" href="#">מחולל תוכניות שיעור</a>
+      <div class="collapse navbar-collapse">
+        <ul class="navbar-nav ms-auto">
+          <li class="nav-item"><a class="nav-link" href="dashboard.html">הספרייה האישית</a></li>
+          <li class="nav-item"><a class="nav-link" href="#" id="logoutBtn">התנתק</a></li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+  <!-- Hero Section -->
+  <header class="hero">
+    <div class="container">
+      <h1>הספרייה האישית שלי</h1>
+      <p>כאן תוכל לנהל את תוכניות השיעור שלך</p>
+    </div>
+  </header>
+  <!-- Dashboard Content -->
+  <div class="container dashboard-container">
+    <!-- Lesson Generation Form -->
+    <section id="generateLesson" class="mb-5">
+      <h2 class="mb-4">יצירת תוכנית שיעור חדשה</h2>
+      <form id="lessonForm" class="bg-white p-4 rounded shadow-sm">
+        <div class="mb-3">
+          <label for="ageGroup" class="form-label">קבוצת גיל:</label>
+          <select id="ageGroup" name="ageGroup" class="form-select">
+            <option value="preschool">גיל הרך</option>
+            <option value="kindergarten">גן ילדים</option>
+            <option value="elementary">יסודי</option>
+          </select>
+        </div>
+        <div class="mb-3">
+          <label for="activityType" class="form-label">סוג פעילות:</label>
+          <select id="activityType" name="activityType" class="form-select">
+            <option value="creative">יצירתית</option>
+            <option value="academic">חינוכית</option>
+            <option value="physical">פיזית</option>
+          </select>
+        </div>
+        <div class="mb-3">
+          <label for="goal" class="form-label">מטרה:</label>
+          <input type="text" id="goal" name="goal" class="form-control" placeholder="הזן מטרה לימודית" required>
+        </div>
+        <div class="d-grid">
+          <button type="submit" class="btn btn-primary">
+            <i class="fas fa-magic me-2"></i>צור תוכנית
+          </button>
+        </div>
+      </form>
+      <div id="lessonResult" class="mt-4 d-none">
+        <h4>תוכנית השיעור שנוצרה:</h4>
+        <pre id="lessonOutput"></pre>
+      </div>
+    </section>
+    <!-- Personal Library Section -->
+    <section id="personalLibrary">
+      <h2 class="mb-4">התוכניות שלי</h2>
+      <div id="libraryResults" class="row">
+        <!-- User's lesson cards will be displayed here -->
+      </div>
+    </section>
+  </div>
+  <!-- Footer -->
+  <footer class="bg-dark text-light py-3 mt-5">
+    <div class="container text-center">
+      <p>© 2025 כל הזכויות שמורות - מחולל תוכניות שיעור</p>
+    </div>
+  </footer>
+  <!-- Bootstrap JS Bundle -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+  <script>
+    // Verify authentication; if no token exists, redirect to login
+    const token = localStorage.getItem('authToken');
+    if (!token) window.location.href = 'login.html';
+
+    // Logout functionality
+    document.getElementById('logoutBtn').addEventListener('click', () => {
+      localStorage.removeItem('authToken');
+      localStorage.removeItem('user');
+      window.location.href = 'login.html';
+    });
+
+    // Handle Lesson Generation
+    document.getElementById('lessonForm').addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const ageGroup = document.getElementById('ageGroup').value;
+      const activityType = document.getElementById('activityType').value;
+      const goal = document.getElementById('goal').value;
+      const payload = { ageGroup, activityType, goal, token };
+
+      try {
+        const response = await fetch('https://hook.make.com/your_generateLesson_webhook', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(payload)
+        });
+        if (!response.ok) throw new Error('תקלה ביצירת תוכנית השיעור');
+        const data = await response.json();
+        const formattedLesson = JSON.stringify(data, null, 2);
+        document.getElementById('lessonOutput').textContent = formattedLesson;
+        document.getElementById('lessonResult').classList.remove('d-none');
+        // Refresh personal library after creation
+        loadUserLibrary();
+      } catch (error) {
+        alert(error.message);
+      }
+    });
+
+    // Load the user’s personal library
+    async function loadUserLibrary() {
+      try {
+        const response = await fetch('https://hook.make.com/your_userLibrary_webhook', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ token })
+        });
+        if (!response.ok) throw new Error('תקלה בקבלת התוכניות');
+        const lessons = await response.json();
+        const libraryResults = document.getElementById('libraryResults');
+        libraryResults.innerHTML = '';
+        lessons.forEach((lesson) => {
+          const col = document.createElement('div');
+          col.className = 'col-md-4';
+          col.innerHTML = `
+            <div class="card">
+              <div class="card-body">
+                <h5 class="card-title">${lesson.title}</h5>
+                <p class="card-text">${lesson.description}</p>
+              </div>
+            </div>
+          `;
+          libraryResults.appendChild(col);
+        });
+      } catch (error) {
+        console.error(error);
+      }
+    }
+    // Load library on page load
+    loadUserLibrary();
+  </script>
+</body>
+</html>
