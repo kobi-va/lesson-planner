@@ -3,5 +3,8 @@ import react from "@vitejs/plugin-react";
 
 export default defineConfig({
   plugins: [react()],
-  base: "/lesson-planner/", // Required for GitHub Pages deployment
+  base: "/lesson-planner/", // Change this to match your GitHub repo name
+  build: {
+    outDir: "dist",
+  },
 });
