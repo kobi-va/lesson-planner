@@ -13,6 +13,10 @@ export default function LessonPlanner() {
   const [savedLessons, setSavedLessons] = useState([]);
   const [editLessonId, setEditLessonId] = useState(null);
 
+  useEffect(() => {
+    fetchSavedLessons();
+  }, []);
+
   const generateLessonPlan = async () => {
     const response = await fetch("https://hook.us1.make.com/YOUR_MAKE_WEBHOOK_URL", {
       method: "POST",
