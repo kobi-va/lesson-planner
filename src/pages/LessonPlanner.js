@@ -1,8 +1,9 @@
 import { useState, useEffect } from "react";
-import { Card, CardContent } from "@/components/ui/card";
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { Textarea } from "@/components/ui/textarea";
+const Card = ({ children }) => <div className="border p-4 rounded shadow">{children}</div>;
+const CardContent = ({ children }) => <div>{children}</div>;
+const Button = ({ children, ...props }) => <button className="bg-blue-500 text-white py-2 px-4 rounded" {...props}>{children}</button>;
+const Input = (props) => <input className="border p-2 rounded w-full" {...props} />;
+const Textarea = (props) => <textarea className="border p-2 rounded w-full" {...props} />;
 import { motion } from "framer-motion";
 
 export default function LessonPlanner() {
