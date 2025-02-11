@@ -1,6 +1,7 @@
 {
   "name": "lesson-planner",
   "version": "1.0.0",
+  "private": true,
   "scripts": {
     "dev": "vite",
     "build": "vite build",
@@ -13,6 +14,7 @@
     "framer-motion": "^6.0.0"
   },
   "devDependencies": {
-    "vite": "^4.0.0"
+    "vite": "^4.0.0",
+    "gh-pages": "^5.0.0"
   }
 }
