@@ -11,135 +11,88 @@
   <style>
     /* Global Styles */
     body {
-      font-family: 'Arial', sans-serif;
-      background-color: #f8f9fa;
-      line-height: 1.6;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background-color: #f0f2f5;
+      margin: 0;
+      padding: 0;
     }
-
     /* Navbar */
-    .navbar-brand {
-      font-size: 1.5rem;
-      font-weight: bold;
+    .navbar {
+      box-shadow: 0 2px 4px rgba(0,0,0,0.1);
     }
-
-    /* Header Section */
-    header {
-      background: linear-gradient(135deg, #00539C, #007BFF);
-      color: #fff;
-      padding: 3rem 0;
-      text-align: center;
+    /* Hero Section */
+    header.hero {
+      background: url('https://via.placeholder.com/1920x600?text=Background') center center/cover no-repeat;
       position: relative;
-      overflow: hidden;
+      height: 60vh;
+      color: #fff;
     }
-    header::after {
-      content: "";
+    header.hero::before {
+      content: '';
       position: absolute;
-      bottom: 0;
-      left: 0;
-      width: 100%;
-      height: 50px;
-      background: url('https://via.placeholder.com/1500x50') no-repeat center bottom;
-      background-size: cover;
+      top: 0; right: 0; bottom: 0; left: 0;
+      background: rgba(0,0,0,0.5);
     }
-    header h1 {
+    header.hero .hero-content {
+      position: relative;
+      z-index: 1;
+      text-align: center;
+      top: 50%;
+      transform: translateY(-50%);
+    }
+    header.hero h1 {
       font-size: 3rem;
       margin-bottom: 1rem;
       animation: fadeInDown 1s ease-out;
     }
-    header p {
+    header.hero p {
       font-size: 1.25rem;
       animation: fadeInUp 1s ease-out;
     }
-
-    /* Sections */
-    section {
-      padding: 4rem 0;
+    @keyframes fadeInDown {
+      from { opacity: 0; transform: translateY(-20px); }
+      to { opacity: 1; transform: translateY(0); }
     }
+    @keyframes fadeInUp {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    /* Section Titles */
     .section-title {
       font-size: 2rem;
-      margin-bottom: 2rem;
+      margin-bottom: 1.5rem;
       text-align: center;
       color: #333;
       position: relative;
     }
     .section-title::after {
-      content: "";
-      width: 60px;
-      height: 4px;
-      background: #007BFF;
+      content: '';
+      width: 50px;
+      height: 3px;
+      background: #007bff;
       display: block;
       margin: 0.5rem auto 0;
-      border-radius: 2px;
+      border-radius: 5px;
     }
-
-    /* Forms and Cards */
-    .form-control, .form-select {
-      border-radius: 0.5rem;
+    /* Generated Lesson Card */
+    .lesson-card {
+      background: #fff;
+      border-radius: 8px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.1);
+      padding: 1.5rem;
+      margin-top: 1.5rem;
     }
-    button.btn-custom {
-      background-color: #007BFF;
-      border: none;
-      border-radius: 0.5rem;
-      padding: 0.75rem 1.5rem;
-      transition: background-color 0.3s ease;
+    /* Spinner */
+    .spinner-border {
+      width: 3rem;
+      height: 3rem;
     }
-    button.btn-custom:hover {
-      background-color: #0056b3;
-    }
-    pre {
-      background-color: #e9ecef;
-      padding: 1rem;
-      border-radius: 0.5rem;
-      overflow-x: auto;
-    }
-    .card {
-      border: none;
-      border-radius: 0.5rem;
-      box-shadow: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.075);
-      transition: transform 0.2s ease;
-    }
-    .card:hover {
-      transform: translateY(-5px);
-    }
-
     /* Footer */
     footer {
       background-color: #343a40;
-      color: #fff;
+      color: #ccc;
       padding: 1rem 0;
       text-align: center;
-    }
-
-    /* Animations */
-    @keyframes fadeInDown {
-      from {
-        opacity: 0;
-        transform: translateY(-20px);
-      }
-      to {
-        opacity: 1;
-        transform: translateY(0);
-      }
-    }
-    @keyframes fadeInUp {
-      from {
-        opacity: 0;
-        transform: translateY(20px);
-      }
-      to {
-        opacity: 1;
-        transform: translateY(0);
-      }
-    }
-
-    /* Responsive Adjustments */
-    @media (max-width: 576px) {
-      header h1 {
-        font-size: 2rem;
-      }
-      .section-title {
-        font-size: 1.5rem;
-      }
     }
   </style>
 </head>
@@ -148,43 +101,38 @@
   <nav class="navbar navbar-expand-lg navbar-dark bg-dark sticky-top">
     <div class="container">
       <a class="navbar-brand" href="#">מחולל תוכניות שיעור</a>
-      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="החלף ניווט">
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarContent" aria-controls="navbarContent" aria-expanded="false" aria-label="תפריט">
         <span class="navbar-toggler-icon"></span>
       </button>
-      <div class="collapse navbar-collapse" id="navbarNav">
+      <div class="collapse navbar-collapse" id="navbarContent">
         <ul class="navbar-nav ms-auto">
           <li class="nav-item">
-            <a class="nav-link" href="#lesson-generation">יצירת תוכנית</a>
+            <a class="nav-link active" href="index.html">דף הבית</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="#activity-library">ספריית פעילויות</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="#customization-tool">התאמה אישית</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="#collaboration-tools">שיתוף פעולה</a>
+            <a class="nav-link" href="library.html">ספריית פעילויות</a>
           </li>
         </ul>
       </div>
     </div>
   </nav>
 
-  <!-- Header Section -->
-  <header>
-    <div class="container">
+  <!-- Hero Section -->
+  <header class="hero">
+    <div class="container hero-content">
       <h1>מחולל תוכניות שיעור</h1>
-      <p>יצירת תוכניות שיעור ייחודיות ומותאמות אישית לחינוך מתקדמות</p>
+      <p>תוכניות שיעור ייחודיות ומותאמות אישית לחינוך</p>
+      <a href="#generate" class="btn btn-primary btn-lg mt-3">התחל עכשיו</a>
     </div>
   </header>
 
-  <!-- Generate Lesson Section -->
-  <section id="lesson-generation">
+  <!-- Lesson Generator Section -->
+  <section id="generate" class="py-5">
     <div class="container">
       <h2 class="section-title">יצירת תוכנית שיעור</h2>
       <div class="row justify-content-center">
         <div class="col-md-8">
-          <form id="lessonForm" class="bg-light p-4 rounded shadow-sm">
+          <form id="lessonForm" class="bg-white p-4 rounded shadow-sm">
             <div class="mb-3">
               <label for="ageGroup" class="form-label">קבוצת גיל:</label>
               <select id="ageGroup" name="ageGroup" class="form-select">
@@ -206,81 +154,43 @@
               <input type="text" id="goal" name="goal" class="form-control" placeholder="הזן מטרה לימודית" required>
             </div>
             <div class="d-grid">
-              <button type="submit" class="btn btn-custom"><i class="fas fa-magic me-2"></i>צור תוכנית שיעור</button>
+              <button type="submit" class="btn btn-primary btn-lg">
+                <i class="fas fa-magic me-2"></i>צור תוכנית שיעור
+              </button>
             </div>
           </form>
-          <div id="generatedLesson" class="mt-4">
-            <h4 class="mb-3">תוכנית השיעור שנוצרה</h4>
-            <pre id="lessonOutput">תוכנית השיעור שתיווצר תופיע כאן.</pre>
+          <div id="lessonResult" class="lesson-card d-none">
+            <!-- Loading spinner -->
+            <div id="loadingSpinner" class="text-center my-3 d-none">
+              <div class="spinner-border text-primary" role="status">
+                <span class="visually-hidden">טוען...</span>
+              </div>
+            </div>
+            <pre id="lessonOutput" class="mb-0"></pre>
           </div>
         </div>
       </div>
     </div>
   </section>
 
-  <!-- Activity Library Section -->
-  <section id="activity-library" class="bg-light">
+  <!-- Lesson Sharing Section -->
+  <section id="share" class="py-5 bg-light">
     <div class="container">
-      <h2 class="section-title">ספריית פעילויות</h2>
+      <h2 class="section-title">שתף תוכנית שיעור</h2>
       <div class="row justify-content-center">
-        <div class="col-md-8">
-          <form id="searchForm" class="bg-white p-4 rounded shadow-sm">
-            <div class="mb-3">
-              <label for="searchQuery" class="form-label">חיפוש תוכניות שיעור:</label>
-              <input type="text" id="searchQuery" name="searchQuery" class="form-control" placeholder="חפש לפי כותרת או מילות מפתח" required>
-            </div>
-            <div class="d-grid">
-              <button type="submit" class="btn btn-custom"><i class="fas fa-search me-2"></i>חפש</button>
-            </div>
-          </form>
-          <div id="libraryResults" class="mt-4">
-            <h4 class="mb-3">תוכניות שיעור</h4>
-            <div id="lessonList" class="row g-3">
-              <!-- כרטיסי תוכניות שיעור יוצגו כאן -->
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- Customization Tool Section -->
-  <section id="customization-tool">
-    <div class="container">
-      <h2 class="section-title">התאמה אישית של תוכנית השיעור</h2>
-      <div class="row justify-content-center">
-        <div class="col-md-8">
-          <div class="bg-light p-4 rounded shadow-sm">
-            <div class="mb-3">
-              <label for="customLesson" class="form-label">ערוך את תוכנית השיעור:</label>
-              <textarea id="customLesson" rows="10" class="form-control" placeholder="ערוך את תוכנית השיעור שלך כאן..."></textarea>
-            </div>
-            <div class="d-grid">
-              <button id="saveCustomLesson" class="btn btn-custom"><i class="fas fa-save me-2"></i>שמור תוכנית מותאמת</button>
-            </div>
-            <div id="saveStatus" class="mt-2 text-muted"></div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- Collaboration Tools Section -->
-  <section id="collaboration-tools" class="bg-light">
-    <div class="container">
-      <h2 class="section-title">כלי שיתוף פעולה</h2>
-      <div class="row justify-content-center">
-        <div class="col-md-8">
+        <div class="col-md-6">
           <form id="shareForm" class="bg-white p-4 rounded shadow-sm">
             <div class="mb-3">
-              <label for="shareEmail" class="form-label">שתף תוכנית שיעור באמצעות דוא"ל:</label>
-              <input type="email" id="shareEmail" name="shareEmail" class="form-control" placeholder="הזן את דוא\"ל של הנמען" required>
+              <label for="shareEmail" class="form-label">כתובת דוא"ל של הנמען:</label>
+              <input type="email" id="shareEmail" name="shareEmail" class="form-control" placeholder="הזן דוא\"ל" required>
             </div>
             <div class="d-grid">
-              <button type="submit" class="btn btn-custom"><i class="fas fa-share-alt me-2"></i>שתף תוכנית</button>
+              <button type="submit" class="btn btn-primary btn-lg">
+                <i class="fas fa-share-alt me-2"></i>שתף תוכנית
+              </button>
             </div>
           </form>
-          <div id="shareStatus" class="mt-2 text-muted"></div>
+          <div id="shareStatus" class="text-center mt-3"></div>
         </div>
       </div>
     </div>
@@ -295,21 +205,15 @@
 
   <!-- Bootstrap JS Bundle -->
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-
-  <!-- Custom JavaScript -->
   <script>
-    // Smooth Scrolling for Navbar Links
-    document.querySelectorAll('.nav-link').forEach(link => {
-      link.addEventListener('click', function (e) {
-        e.preventDefault();
-        const targetId = this.getAttribute('href');
-        document.querySelector(targetId).scrollIntoView({ behavior: 'smooth' });
-      });
-    });
+    // Handle Lesson Generation
+    document.getElementById('lessonForm').addEventListener('submit', async (e) => {
+      e.preventDefault();
+      // Clear previous result and show spinner
+      document.getElementById('lessonOutput').textContent = "";
+      document.getElementById('lessonResult').classList.remove('d-none');
+      document.getElementById('loadingSpinner').classList.remove('d-none');
 
-    // --- יצירת תוכנית שיעור ---
-    document.getElementById('lessonForm').addEventListener('submit', async (event) => {
-      event.preventDefault();
       const ageGroup = document.getElementById('ageGroup').value;
       const activityType = document.getElementById('activityType').value;
       const goal = document.getElementById('goal').value;
@@ -322,77 +226,22 @@
           body: JSON.stringify(payload)
         });
         if (!response.ok) {
-          throw new Error('התשובה מהשרת לא הייתה תקינה');
+          throw new Error('תקלה ביצירת תוכנית השיעור');
         }
         const data = await response.json();
         const formattedLesson = JSON.stringify(data, null, 2);
         document.getElementById('lessonOutput').textContent = formattedLesson;
-        document.getElementById('customLesson').value = formattedLesson;
       } catch (error) {
-        console.error('שגיאה ביצירת תוכנית השיעור:', error);
-        document.getElementById('lessonOutput').textContent = 'שגיאה ביצירת תוכנית השיעור.';
+        console.error('Error:', error);
+        document.getElementById('lessonOutput').textContent = 'אירעה שגיאה ביצירת תוכנית השיעור.';
+      } finally {
+        document.getElementById('loadingSpinner').classList.add('d-none');
       }
     });
 
-    // --- חיפוש בספריית פעילויות ---
-    document.getElementById('searchForm').addEventListener('submit', async (event) => {
-      event.preventDefault();
-      const query = document.getElementById('searchQuery').value;
-      try {
-        const response = await fetch('https://hook.make.com/your_activityLibrary_webhook', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ query })
-        });
-        if (!response.ok) {
-          throw new Error('התשובה מהשרת לא הייתה תקינה');
-        }
-        const lessons = await response.json();
-        const lessonList = document.getElementById('lessonList');
-        lessonList.innerHTML = '';
-        lessons.forEach((lesson) => {
-          // Create a card for each lesson
-          const col = document.createElement('div');
-          col.className = 'col-md-6';
-          col.innerHTML = `
-            <div class="card h-100">
-              <div class="card-body">
-                <h5 class="card-title">${lesson.title}</h5>
-                <p class="card-text">${lesson.description}</p>
-              </div>
-            </div>
-          `;
-          lessonList.appendChild(col);
-        });
-      } catch (error) {
-        console.error('שגיאה בקבלת תוכניות השיעור:', error);
-        document.getElementById('lessonList').innerHTML = '<p>שגיאה בקבלת תוכניות השיעור.</p>';
-      }
-    });
-
-    // --- כלי התאמה אישית (שמירת תוכנית מותאמת) ---
-    document.getElementById('saveCustomLesson').addEventListener('click', async () => {
-      const customLesson = document.getElementById('customLesson').value;
-      try {
-        const response = await fetch('https://hook.make.com/your_updateLesson_webhook', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ customLesson })
-        });
-        if (!response.ok) {
-          throw new Error('התשובה מהשרת לא הייתה תקינה');
-        }
-        await response.json();
-        document.getElementById('saveStatus').textContent = 'התוכנית המותאמת נשמרה בהצלחה.';
-      } catch (error) {
-        console.error('שגיאה בשמירת תוכנית השיעור המותאמת:', error);
-        document.getElementById('saveStatus').textContent = 'אירעה שגיאה בשמירת תוכנית השיעור המותאמת.';
-      }
-    });
-
-    // --- כלי שיתוף פעולה (שיתוף תוכנית השיעור) ---
-    document.getElementById('shareForm').addEventListener('submit', async (event) => {
-      event.preventDefault();
+    // Handle Lesson Sharing
+    document.getElementById('shareForm').addEventListener('submit', async (e) => {
+      e.preventDefault();
       const email = document.getElementById('shareEmail').value;
       try {
         const response = await fetch('https://hook.make.com/your_shareLesson_webhook', {
@@ -401,15 +250,16 @@
           body: JSON.stringify({ email })
         });
         if (!response.ok) {
-          throw new Error('התשובה מהשרת לא הייתה תקינה');
+          throw new Error('תקלה בשיתוף תוכנית השיעור');
         }
         await response.json();
         document.getElementById('shareStatus').textContent = 'תוכנית השיעור שותפה בהצלחה.';
       } catch (error) {
-        console.error('שגיאה בשיתוף תוכנית השיעור:', error);
+        console.error('Error:', error);
         document.getElementById('shareStatus').textContent = 'אירעה שגיאה בשיתוף תוכנית השיעור.';
       }
     });
   </script>
 </body>
 </html>
+
