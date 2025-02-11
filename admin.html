@@ -2,62 +2,159 @@
 <html lang="he" dir="rtl">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>לוח בקרה מנהל - מחולל תוכניות שיעור</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>לוח מנהל - מחולל תוכניות שיעור</title>
   <!-- Bootstrap RTL CSS -->
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.rtl.min.css" />
-  <!-- FontAwesome for icons -->
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.rtl.min.css">
+  <!-- FontAwesome -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
   <style>
-    body { background-color: #f0f2f5; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
-    .navbar-brand { font-size: 1.5rem; font-weight: bold; }
-    .admin-container { padding: 2rem 0; }
-    .user-card { margin-bottom: 1rem; }
+    body {
+      font-family: 'Poppins', sans-serif;
+      background-color: #f0f2f5;
+      margin: 0;
+      padding: 0;
+    }
+    .navbar {
+      box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    }
+    .navbar-brand {
+      font-weight: 600;
+      font-size: 1.75rem;
+    }
+    /* Hero Section */
+    header.hero {
+      background: linear-gradient(135deg, #00539C, #007BFF), url('https://via.placeholder.com/1920x400?text=Admin+Dashboard') center/cover no-repeat;
+      position: relative;
+      height: 40vh;
+      color: #fff;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    header.hero::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0,0,0,0.5);
+      z-index: 1;
+    }
+    .hero-content {
+      position: relative;
+      z-index: 2;
+      text-align: center;
+    }
+    .hero-content h1 {
+      font-size: 2.5rem;
+      margin-bottom: 0.5rem;
+    }
+    .hero-content p {
+      font-size: 1.2rem;
+    }
+    /* Admin Content */
+    .admin-container {
+      padding: 2rem 0;
+    }
+    .card {
+      border-radius: 10px;
+      box-shadow: 0 0 15px rgba(0,0,0,0.1);
+    }
+    .card-header {
+      background: linear-gradient(135deg, #00539C, #007BFF);
+      color: #fff;
+      text-align: center;
+      font-size: 1.5rem;
+      padding: 1rem;
+      border-top-left-radius: 10px;
+      border-top-right-radius: 10px;
+    }
+    .card-body {
+      padding: 1.5rem;
+    }
+    .btn-custom {
+      padding: 0.5rem 1.5rem;
+      font-size: 1rem;
+      border-radius: 50px;
+      transition: transform 0.3s ease;
+    }
+    .btn-custom:hover {
+      transform: scale(1.05);
+    }
+    footer {
+      background-color: #343a40;
+      color: #ccc;
+      padding: 1.5rem 0;
+      text-align: center;
+    }
   </style>
 </head>
 <body>
-  <!-- Navigation Bar -->
-  <nav class="navbar navbar-expand-lg navbar-dark bg-dark sticky-top">
-    <div class="container">
-      <a class="navbar-brand" href="#">מחולל תוכניות שיעור - לוח מנהל</a>
-      <div class="collapse navbar-collapse">
-        <ul class="navbar-nav ms-auto">
-          <li class="nav-item"><a class="nav-link" href="admin.html">לוח בקרה</a></li>
-          <li class="nav-item"><a class="nav-link" href="#" id="logoutBtn">התנתק</a></li>
-        </ul>
-      </div>
-    </div>
-  </nav>
-  <!-- Admin Dashboard Content -->
-  <div class="container admin-container">
-    <h1 class="mb-4">ניהול משתמשים</h1>
-    <div id="usersList" class="row">
-      <!-- User cards will be displayed here -->
-    </div>
-  </div>
-  <!-- Footer -->
-  <footer class="bg-dark text-light py-3 mt-5">
-    <div class="container text-center">
-      <p>© 2025 כל הזכויות שמורות - מחולל תוכניות שיעור</p>
-    </div>
-  </footer>
-  <!-- Bootstrap JS Bundle -->
-  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
   <script>
-    // Verify admin authentication: require valid token and user role of "admin"
+    // Authentication and admin check
     const token = localStorage.getItem('authToken');
     const user = JSON.parse(localStorage.getItem('user'));
     if (!token || !user || user.role !== 'admin') {
       window.location.href = 'login.html';
     }
-
+  </script>
+  
+  <!-- Navbar -->
+  <nav class="navbar navbar-expand-lg navbar-dark bg-dark sticky-top">
+    <div class="container">
+      <a class="navbar-brand" href="admin.html">מחולל תוכניות שיעור - לוח מנהל</a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarContent"
+              aria-controls="navbarContent" aria-expanded="false" aria-label="תפריט">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarContent">
+         <ul class="navbar-nav ms-auto">
+           <li class="nav-item"><a class="nav-link active" href="admin.html">לוח בקרה</a></li>
+           <li class="nav-item"><a class="nav-link" href="#" id="logoutBtn">התנתק</a></li>
+         </ul>
+      </div>
+    </div>
+  </nav>
+  
+  <!-- Hero Section -->
+  <header class="hero">
+    <div class="container hero-content">
+      <h1>ניהול משתמשים</h1>
+      <p>נהל את המשתמשים במערכת</p>
+    </div>
+  </header>
+  
+  <!-- Admin Content -->
+  <section class="admin-container">
+    <div class="container">
+      <h2 class="mb-4 text-center">רשימת משתמשים</h2>
+      <div id="usersList" class="row">
+        <!-- User cards will be rendered here -->
+      </div>
+    </div>
+  </section>
+  
+  <!-- Footer -->
+  <footer>
+    <div class="container">
+      <p>© 2025 כל הזכויות שמורות - מחולל תוכניות שיעור</p>
+    </div>
+  </footer>
+  
+  <!-- Bootstrap JS Bundle -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+  <script>
     // Logout functionality
     document.getElementById('logoutBtn').addEventListener('click', () => {
       localStorage.removeItem('authToken');
       localStorage.removeItem('user');
       window.location.href = 'login.html';
     });
-
+    
     // Load list of users for admin management
     async function loadUsers() {
       try {
@@ -72,14 +169,14 @@
         usersList.innerHTML = '';
         users.forEach((u) => {
           const col = document.createElement('div');
-          col.className = 'col-md-4 user-card';
+          col.className = 'col-md-4 mb-3';
           col.innerHTML = `
             <div class="card">
               <div class="card-body">
                 <h5 class="card-title">${u.name}</h5>
                 <p class="card-text">דוא"ל: ${u.email}</p>
                 <p class="card-text">תפקיד: ${u.role}</p>
-                <button class="btn btn-danger btn-sm" onclick="deleteUser('${u.id}')">
+                <button class="btn btn-danger btn-custom" onclick="deleteUser('${u.id}')">
                   <i class="fas fa-trash me-1"></i>מחק משתמש
                 </button>
               </div>
@@ -91,8 +188,7 @@
         console.error(error);
       }
     }
-
-    // Delete user function
+    
     async function deleteUser(userId) {
       if (!confirm('האם אתה בטוח שברצונך למחוק משתמש זה?')) return;
       try {
@@ -108,7 +204,6 @@
         alert(error.message);
       }
     }
-    // Load users on page load
     loadUsers();
   </script>
 </body>
