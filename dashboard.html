@@ -17,13 +17,13 @@
     }
     /* Navbar */
     .navbar {
-      box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
     }
-    /* Hero Section */
+    /* Hero Section (reduced height) */
     .hero {
       background: linear-gradient(135deg, #00539C, #007BFF), url('https://via.placeholder.com/1920x400?text=Dashboard') center/cover no-repeat;
       color: #fff;
-      height: 40vh;
+      height: 25vh;
       position: relative;
     }
     .hero::before {
@@ -36,27 +36,68 @@
       position: relative;
       z-index: 2;
       text-align: center;
-      padding-top: 8rem;
+      padding-top: 2rem;
+      transition: opacity 0.5s ease;
     }
-    /* Form card */
+    .hero-content h1 {
+      font-size: 2rem;
+      margin-bottom: 0.5rem;
+    }
+    .hero-content p {
+      font-size: 1rem;
+      margin-bottom: 0;
+    }
+    /* Card styling */
     .card {
       border: none;
       border-radius: 10px;
-      margin-top: -5rem;
-      box-shadow: 0 0 20px rgba(0,0,0,0.1);
+      margin-top: -3rem;
+      box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+      transition: transform 0.3s ease;
+    }
+    .card:hover {
+      transform: translateY(-3px);
     }
     /* Download buttons */
     .download-buttons button {
       min-width: 150px;
     }
+    /* Fade-in for lesson result */
+    .fade-in {
+      animation: fadeIn 0.6s ease-in-out;
+    }
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
   </style>
 </head>
 <body>
+  <script>
+    // Logout: remove token and redirect to login
+    document.addEventListener('DOMContentLoaded', () => {
+      const logoutBtn = document.getElementById('logoutBtn');
+      if (logoutBtn) {
+        logoutBtn.addEventListener('click', () => {
+          localStorage.removeItem('authToken');
+          localStorage.removeItem('user');
+          window.location.href = 'login.html';
+        });
+      }
+      // Check if token exists; if not, redirect
+      const token = localStorage.getItem('authToken');
+      if (!token) {
+        window.location.href = 'login.html';
+      }
+    });
+  </script>
+  
   <!-- Navbar -->
   <nav class="navbar navbar-expand-lg navbar-dark bg-dark sticky-top">
     <div class="container">
       <a class="navbar-brand" href="#">מחולל תוכניות שיעור</a>
-      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="תפריט">
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" 
+              aria-controls="navbarNav" aria-expanded="false" aria-label="תפריט">
         <span class="navbar-toggler-icon"></span>
       </button>
       <div class="collapse navbar-collapse" id="navbarNav">
@@ -72,18 +113,18 @@
     </div>
   </nav>
   
-  <!-- Hero Section -->
+  <!-- Hero Section (smaller header) -->
   <header class="hero">
     <div class="container hero-content">
-      <h1 class="display-4">יצירת תוכנית שיעור</h1>
-      <p class="lead">צור את תוכנית השיעור שלך והורד אותה כ-PDF או Word</p>
+      <h1 class="display-6">יצירת תוכנית שיעור</h1>
+      <p class="lead">הזן את הפרטים ולחץ על "צור תוכנית" לקבלת תוכנית מפורטת. הורד כ-PDF או Word.</p>
     </div>
   </header>
   
   <!-- Main Content -->
   <div class="container my-5">
     <div class="card p-4">
-      <h3 class="card-title text-center mb-4">הזן פרטים ליצירת תוכנית</h3>
+      <h3 class="card-title text-center mb-4">פרטי תוכנית השיעור</h3>
       <form id="lessonForm">
         <div class="mb-3">
           <label for="ageGroup" class="form-label">קבוצת גיל</label>
@@ -142,14 +183,7 @@
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
   
   <script>
-    // Logout functionality: remove token and redirect to login
-    document.getElementById('logoutBtn').addEventListener('click', () => {
-      localStorage.removeItem('authToken');
-      localStorage.removeItem('user');
-      window.location.href = 'login.html';
-    });
-    
-    // Handle Lesson Generation using plain text response
+    // Handle lesson generation using plain text response
     document.getElementById('lessonForm').addEventListener('submit', async (e) => {
       e.preventDefault();
       
@@ -165,16 +199,19 @@
       const payload = { action: "generateLesson", ageGroup, activityType, goal, token };
       
       try {
-        const response = await fetch('https://hook.eu2.make.com/3vs2y5sidq5fq3uux5ee9xgnkqz2zt52', {
+        const response = await fetch('https://hook.make.com/your_generateLesson_webhook', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify(payload)
         });
         if (!response.ok) throw new Error('תקלה ביצירת תוכנית השיעור');
-        // Use response.text() to get plain text
+        // Use response.text() since we expect plain text
         const lessonPlanText = await response.text();
-        document.getElementById('lessonOutput').textContent = lessonPlanText;
+        const lessonOutput = document.getElementById('lessonOutput');
+        lessonOutput.textContent = lessonPlanText;
+        // Add a fade-in effect when showing the result
         document.getElementById('lessonResult').classList.remove('d-none');
+        document.getElementById('lessonResult').classList.add('fade-in');
       } catch (error) {
         alert(error.message);
       } finally {
@@ -193,7 +230,7 @@
       doc.save('lesson.pdf');
     });
     
-    // Download as Word document using HTML-to-Word approach
+    // Download as Word document using a simple HTML-to-Word approach
     document.getElementById('downloadWord').addEventListener('click', () => {
       const lessonText = document.getElementById('lessonOutput').textContent;
       const htmlContent = `
