@@ -152,10 +152,11 @@
                     <option value="creative">יצירתית</option>
                     <option value="academic">חינוכית</option>
                     <option value="physical">פיזית</option>
+                    <option value="game">משחקית</option>
                   </select>
                 </div>
                 <div class="mb-3">
-                  <label for="goal" class="form-label">מטרה:</label>
+                  <label for="goal" class="form-label">מטרה אופרטיבית:</label>
                   <input type="text" id="goal" name="goal" class="form-control" placeholder="הזן מטרה לימודית" required>
                 </div>
                 <div class="d-grid">
@@ -219,11 +220,12 @@
         if (!response.ok) throw new Error('תקלה ביצירת תוכנית השיעור');
         const data = await response.json();
         // Format the lesson plan as a pretty JSON string
-        const formattedLesson = JSON.stringify(data, null, 2);
-        document.getElementById('lessonOutput').textContent = formattedLesson;
-        document.getElementById('lessonResult').classList.remove('d-none');
+        const lessonPlan = data.lessonPlan;
+        document.getElementById('lessonOutput').textContent = lessonPlan;
       } catch (error) {
-        alert(error.message);
+        // Fallback: if JSON parsing fails, treat the response as plain text
+        const lessonPlan = await response.text();
+        document.getElementById('lessonOutput').textContent = lessonPlan;
       }
     });
     
