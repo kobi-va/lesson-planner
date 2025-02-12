@@ -3,178 +3,194 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>יצירת תוכנית שיעור - מחולל תוכניות שיעור</title>
+  <title>מחולל תוכניות שיעור מתקדם</title>
   <!-- Bootstrap RTL CSS -->
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.rtl.min.css" rel="stylesheet">
   <!-- FontAwesome for icons -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   <style>
+    /* CSS Variables for theming */
+    :root {
+      --primary-color: #4B79A1;
+      --secondary-color: #283E51;
+      --accent-color: #FF6F61;
+      --glass-bg: rgba(255, 255, 255, 0.1);
+      --glass-border: rgba(255, 255, 255, 0.3);
+    }
+    /* Global Styles */
     body {
-      font-family: 'Arial', sans-serif;
-      background-color: #f8f9fa;
       margin: 0;
       padding: 0;
+      font-family: 'Arial', sans-serif;
+      background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+      background-size: cover;
+      background-attachment: fixed;
+      color: #f0f0f0;
+      min-height: 100vh;
+      overflow-x: hidden;
     }
-    /* Navbar */
-    .navbar {
-      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    /* Glassmorphism Card */
+    .glass-card {
+      background: var(--glass-bg);
+      border: 1px solid var(--glass-border);
+      backdrop-filter: blur(10px);
+      border-radius: 15px;
+      padding: 2rem;
+      box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
     }
-    /* Hero Section (reduced height) */
-    .hero {
-      background: linear-gradient(135deg, #00539C, #007BFF), url('https://via.placeholder.com/1920x400?text=Dashboard') center/cover no-repeat;
-      color: #fff;
-      height: 25vh;
-      position: relative;
+    .glass-card:hover {
+      transform: translateY(-10px);
+      box-shadow: 0 12px 48px rgba(31, 38, 135, 0.5);
     }
-    .hero::before {
-      content: "";
-      position: absolute;
-      top: 0; left: 0; right: 0; bottom: 0;
-      background: rgba(0,0,0,0.5);
-    }
-    .hero-content {
-      position: relative;
-      z-index: 2;
+    /* Header / Hero (reduced height) */
+    header.hero {
+      padding: 1rem;
       text-align: center;
-      padding-top: 2rem;
-      transition: opacity 0.5s ease;
+      position: relative;
+      background: rgba(0, 0, 0, 0.5);
+      backdrop-filter: blur(8px);
+      margin-bottom: 1.5rem;
     }
-    .hero-content h1 {
+    header.hero h1 {
       font-size: 2rem;
-      margin-bottom: 0.5rem;
+      margin-bottom: 0.25rem;
     }
-    .hero-content p {
+    header.hero p {
       font-size: 1rem;
       margin-bottom: 0;
     }
-    /* Card styling */
-    .card {
+    /* Form Elements */
+    .form-control, .form-select {
+      background: rgba(255, 255, 255, 0.15);
       border: none;
-      border-radius: 10px;
-      margin-top: -3rem;
-      box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
-      transition: transform 0.3s ease;
+      border-radius: 8px;
+      color: #fff;
     }
-    .card:hover {
-      transform: translateY(-3px);
+    .form-control:focus, .form-select:focus {
+      background: rgba(255, 255, 255, 0.2);
+      box-shadow: 0 0 5px rgba(255, 111, 97, 0.5);
     }
-    /* Download buttons */
-    .download-buttons button {
-      min-width: 150px;
+    label {
+      font-weight: bold;
     }
-    /* Fade-in for lesson result */
+    /* Buttons */
+    .btn-custom {
+      border-radius: 50px;
+      padding: 0.75rem 2rem;
+      font-size: 1rem;
+      transition: background 0.3s ease;
+    }
+    .btn-custom:hover {
+      background: var(--accent-color);
+    }
+    /* Fade-in Animation for Results */
     .fade-in {
-      animation: fadeIn 0.6s ease-in-out;
+      animation: fadeIn 0.5s ease-in-out;
     }
     @keyframes fadeIn {
       from { opacity: 0; }
       to { opacity: 1; }
     }
+    /* Spinner Overlay */
+    .spinner-overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.6);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 1050;
+    }
+    .spinner-overlay .spinner-border {
+      width: 4rem;
+      height: 4rem;
+    }
+    /* Footer */
+    footer {
+      text-align: center;
+      padding: 1rem;
+      background: rgba(0, 0, 0, 0.7);
+      position: fixed;
+      bottom: 0;
+      width: 100%;
+      color: #ccc;
+    }
   </style>
 </head>
 <body>
-  <script>
-    // Logout: remove token and redirect to login
-    document.addEventListener('DOMContentLoaded', () => {
-      const logoutBtn = document.getElementById('logoutBtn');
-      if (logoutBtn) {
-        logoutBtn.addEventListener('click', () => {
-          localStorage.removeItem('authToken');
-          localStorage.removeItem('user');
-          window.location.href = 'login.html';
-        });
-      }
-      // Check if token exists; if not, redirect
-      const token = localStorage.getItem('authToken');
-      if (!token) {
-        window.location.href = 'login.html';
-      }
-    });
-  </script>
-  
-  <!-- Navbar -->
-  <nav class="navbar navbar-expand-lg navbar-dark bg-dark sticky-top">
-    <div class="container">
-      <a class="navbar-brand" href="#">מחולל תוכניות שיעור</a>
-      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" 
-              aria-controls="navbarNav" aria-expanded="false" aria-label="תפריט">
-        <span class="navbar-toggler-icon"></span>
-      </button>
-      <div class="collapse navbar-collapse" id="navbarNav">
-         <ul class="navbar-nav ms-auto">
-           <li class="nav-item">
-             <a class="nav-link active" href="dashboard.html">יצירת תוכנית</a>
-           </li>
-           <li class="nav-item">
-             <a class="nav-link" href="#" id="logoutBtn">התנתק</a>
-           </li>
-         </ul>
-      </div>
+  <!-- Spinner Overlay (hidden by default) -->
+  <div id="spinnerOverlay" class="spinner-overlay d-none">
+    <div class="spinner-border text-light" role="status">
+      <span class="visually-hidden">טוען...</span>
     </div>
-  </nav>
+  </div>
   
-  <!-- Hero Section (smaller header) -->
+  <!-- Header / Hero -->
   <header class="hero">
-    <div class="container hero-content">
-      <h1 class="display-6">יצירת תוכנית שיעור</h1>
-      <p class="lead">הזן את הפרטים ולחץ על "צור תוכנית" לקבלת תוכנית מפורטת. הורד כ-PDF או Word.</p>
+    <div class="container">
+      <h1>מחולל תוכניות שיעור מתקדם</h1>
+      <p>הזן פרטים לקבלת תוכנית שיעור מותאמת ומרהיבה</p>
     </div>
   </header>
   
   <!-- Main Content -->
-  <div class="container my-5">
-    <div class="card p-4">
-      <h3 class="card-title text-center mb-4">פרטי תוכנית השיעור</h3>
-      <form id="lessonForm">
-        <div class="mb-3">
-          <label for="ageGroup" class="form-label">קבוצת גיל</label>
-          <select class="form-select" id="ageGroup" name="ageGroup">
-            <option value="preschool">גיל הרך</option>
-            <option value="kindergarten">גן ילדים</option>
-            <option value="elementary">יסודי</option>
-          </select>
+  <div class="container my-4">
+    <div class="row justify-content-center">
+      <div class="col-12 col-md-8 col-lg-6">
+        <!-- Glassmorphic Form Card -->
+        <div class="glass-card">
+          <h2 class="text-center mb-4">פרטי תוכנית השיעור</h2>
+          <form id="lessonForm">
+            <div class="mb-3">
+              <label for="ageGroup" class="form-label">קבוצת גיל</label>
+              <select class="form-select" id="ageGroup" name="ageGroup">
+                <option value="preschool">גיל הרך</option>
+                <option value="kindergarten">גן ילדים</option>
+                <option value="elementary">יסודי</option>
+              </select>
+            </div>
+            <div class="mb-3">
+              <label for="activityType" class="form-label">סוג פעילות</label>
+              <select class="form-select" id="activityType" name="activityType">
+                <option value="creative">יצירתית</option>
+                <option value="academic">חינוכית</option>
+                <option value="physical">פיזית</option>
+              </select>
+            </div>
+            <div class="mb-3">
+              <label for="goal" class="form-label">מטרה</label>
+              <input type="text" class="form-control" id="goal" name="goal" placeholder="הזן מטרה לימודית" required>
+            </div>
+            <div class="d-grid">
+              <button type="submit" class="btn btn-primary btn-custom">צור תוכנית</button>
+            </div>
+          </form>
         </div>
-        <div class="mb-3">
-          <label for="activityType" class="form-label">סוג פעילות</label>
-          <select class="form-select" id="activityType" name="activityType">
-            <option value="creative">יצירתית</option>
-            <option value="academic">חינוכית</option>
-            <option value="physical">פיזית</option>
-          </select>
-        </div>
-        <div class="mb-3">
-          <label for="goal" class="form-label">מטרה</label>
-          <input type="text" class="form-control" id="goal" name="goal" placeholder="הזן מטרה לימודית" required>
-        </div>
-        <div class="d-grid mb-3">
-          <button type="submit" class="btn btn-primary">צור תוכנית</button>
-        </div>
-      </form>
-      
-      <!-- Progress Indicator -->
-      <div id="loadingIndicator" class="text-center d-none">
-        <div class="spinner-border text-primary" role="status">
-          <span class="visually-hidden">טוען...</span>
-        </div>
-      </div>
-      
-      <!-- Generated Lesson Plan Display -->
-      <div id="lessonResult" class="mt-4 d-none">
-        <h4>תוכנית השיעור שנוצרה:</h4>
-        <pre id="lessonOutput" class="bg-light p-3 rounded"></pre>
-        <div class="download-buttons mt-3 d-flex justify-content-center gap-3">
-          <button id="downloadPDF" class="btn btn-success"><i class="fas fa-file-pdf me-2"></i>הורד כ-PDF</button>
-          <button id="downloadWord" class="btn btn-info"><i class="fas fa-file-word me-2"></i>הורד כ-Word</button>
+        
+        <!-- Result Card -->
+        <div id="resultCard" class="glass-card mt-4 d-none fade-in">
+          <h3 class="text-center">תוכנית השיעור שנוצרה</h3>
+          <pre id="lessonOutput" class="bg-light p-3 rounded" style="max-height: 300px; overflow-y: auto;"></pre>
+          <div class="d-flex justify-content-center gap-3 mt-3">
+            <button id="downloadPDF" class="btn btn-success btn-custom">
+              <i class="fas fa-file-pdf me-2"></i>PDF
+            </button>
+            <button id="downloadWord" class="btn btn-info btn-custom">
+              <i class="fas fa-file-word me-2"></i>Word
+            </button>
+          </div>
         </div>
       </div>
     </div>
   </div>
   
   <!-- Footer -->
-  <footer class="bg-dark text-light py-3">
-    <div class="container text-center">
-      <p>© 2025 כל הזכויות שמורות - מחולל תוכניות שיעור</p>
-    </div>
+  <footer>
+    <p>© 2025 כל הזכויות שמורות - מחולל תוכניות שיעור</p>
   </footer>
   
   <!-- Bootstrap JS Bundle -->
@@ -183,13 +199,20 @@
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
   
   <script>
+    // Ensure user is authenticated
+    if (!localStorage.getItem('authToken')) {
+      window.location.href = 'login.html';
+    }
+    
     // Handle lesson generation using plain text response
     document.getElementById('lessonForm').addEventListener('submit', async (e) => {
       e.preventDefault();
       
-      // Show progress indicator and hide previous result
-      document.getElementById('loadingIndicator').classList.remove('d-none');
-      document.getElementById('lessonResult').classList.add('d-none');
+      // Show spinner overlay and hide previous result
+      const spinnerOverlay = document.getElementById('spinnerOverlay');
+      spinnerOverlay.classList.remove('d-none');
+      const resultCard = document.getElementById('resultCard');
+      resultCard.classList.add('d-none');
       
       const ageGroup = document.getElementById('ageGroup').value;
       const activityType = document.getElementById('activityType').value;
@@ -199,7 +222,7 @@
       const payload = { action: "generateLesson", ageGroup, activityType, goal, token };
       
       try {
-        const response = await fetch('https://hook.make.com/your_generateLesson_webhook', {
+        const response = await fetch('https://hook.eu2.make.com/3vs2y5sidq5fq3uux5ee9xgnkqz2zt52', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify(payload)
@@ -207,16 +230,12 @@
         if (!response.ok) throw new Error('תקלה ביצירת תוכנית השיעור');
         // Use response.text() since we expect plain text
         const lessonPlanText = await response.text();
-        const lessonOutput = document.getElementById('lessonOutput');
-        lessonOutput.textContent = lessonPlanText;
-        // Add a fade-in effect when showing the result
-        document.getElementById('lessonResult').classList.remove('d-none');
-        document.getElementById('lessonResult').classList.add('fade-in');
+        document.getElementById('lessonOutput').textContent = lessonPlanText;
+        resultCard.classList.remove('d-none');
       } catch (error) {
         alert(error.message);
       } finally {
-        // Hide progress indicator
-        document.getElementById('loadingIndicator').classList.add('d-none');
+        spinnerOverlay.classList.add('d-none');
       }
     });
     
@@ -230,7 +249,7 @@
       doc.save('lesson.pdf');
     });
     
-    // Download as Word document using a simple HTML-to-Word approach
+    // Download as Word document using HTML-to-Word approach
     document.getElementById('downloadWord').addEventListener('click', () => {
       const lessonText = document.getElementById('lessonOutput').textContent;
       const htmlContent = `
@@ -251,3 +270,4 @@
   </script>
 </body>
 </html>
+
