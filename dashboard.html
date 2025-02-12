@@ -3,222 +3,236 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>מחולל תוכניות שיעור מתקדם</title>
+  <title>יצירת מערך שיעור - מחולל מערכי שיעור</title>
   <!-- Bootstrap RTL CSS -->
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.rtl.min.css" rel="stylesheet">
-  <!-- FontAwesome for icons -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.rtl.min.css">
+  <!-- FontAwesome -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
   <style>
-    /* CSS Variables for theming */
-    :root {
-      --primary-color: #4B79A1;
-      --secondary-color: #283E51;
-      --accent-color: #FF6F61;
-      --glass-bg: rgba(255, 255, 255, 0.1);
-      --glass-border: rgba(255, 255, 255, 0.3);
-    }
-    /* Global Styles */
     body {
+      font-family: 'Poppins', sans-serif;
+      background-color: #f0f2f5;
       margin: 0;
       padding: 0;
-      font-family: 'Arial', sans-serif;
-      background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
-      background-size: cover;
-      background-attachment: fixed;
-      color: #f0f0f0;
-      min-height: 100vh;
-      overflow-x: hidden;
     }
-    /* Glassmorphism Card */
-    .glass-card {
-      background: var(--glass-bg);
-      border: 1px solid var(--glass-border);
-      backdrop-filter: blur(10px);
-      border-radius: 15px;
-      padding: 2rem;
-      box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
-      transition: transform 0.3s ease, box-shadow 0.3s ease;
+    /* Navbar */
+    .navbar {
+      box-shadow: 0 2px 4px rgba(0,0,0,0.1);
     }
-    .glass-card:hover {
-      transform: translateY(-10px);
-      box-shadow: 0 12px 48px rgba(31, 38, 135, 0.5);
+    .navbar-brand {
+      font-weight: 600;
+      font-size: 1.75rem;
     }
-    /* Header / Hero (reduced height) */
+    /* Hero Section */
     header.hero {
-      padding: 1rem;
-      text-align: center;
+      background: linear-gradient(135deg, #00539C, #007BFF), url('https://via.placeholder.com/1920x400?text=Dashboard') center/cover no-repeat;
       position: relative;
-      background: rgba(0, 0, 0, 0.5);
-      backdrop-filter: blur(8px);
-      margin-bottom: 1.5rem;
-    }
-    header.hero h1 {
-      font-size: 2rem;
-      margin-bottom: 0.25rem;
-    }
-    header.hero p {
-      font-size: 1rem;
-      margin-bottom: 0;
-    }
-    /* Form Elements */
-    .form-control, .form-select {
-      background: rgba(255, 255, 255, 0.15);
-      border: none;
-      border-radius: 8px;
+      height: 40vh;
       color: #fff;
+      display: flex;
+      align-items: center;
+      justify-content: center;
     }
-    .form-control:focus, .form-select:focus {
-      background: rgba(255, 255, 255, 0.2);
-      box-shadow: 0 0 5px rgba(255, 111, 97, 0.5);
-    }
-    label {
-      font-weight: bold;
-    }
-    /* Buttons */
-    .btn-custom {
-      border-radius: 50px;
-      padding: 0.75rem 2rem;
-      font-size: 1rem;
-      transition: background 0.3s ease;
-    }
-    .btn-custom:hover {
-      background: var(--accent-color);
-    }
-    /* Fade-in Animation for Results */
-    .fade-in {
-      animation: fadeIn 0.5s ease-in-out;
-    }
-    @keyframes fadeIn {
-      from { opacity: 0; }
-      to { opacity: 1; }
-    }
-    /* Spinner Overlay */
-    .spinner-overlay {
-      position: fixed;
+    header.hero::before {
+      content: '';
+      position: absolute;
       top: 0;
       left: 0;
       width: 100%;
       height: 100%;
-      background: rgba(0, 0, 0, 0.6);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      z-index: 1050;
+      background: rgba(0,0,0,0.5);
+      z-index: 1;
     }
-    .spinner-overlay .spinner-border {
-      width: 4rem;
-      height: 4rem;
+    .hero-content {
+      position: relative;
+      z-index: 2;
+      text-align: center;
+    }
+    .hero-content h1 {
+      font-size: 2.5rem;
+      margin-bottom: 0.5rem;
+    }
+    .hero-content p {
+      font-size: 1.2rem;
+    }
+    /* Dashboard Content */
+    .dashboard-container {
+      padding: 2rem 0;
+    }
+    .card {
+      border-radius: 10px;
+      box-shadow: 0 0 15px rgba(0,0,0,0.1);
+    }
+    .card-header {
+      background: linear-gradient(135deg, #00539C, #007BFF);
+      color: #fff;
+      text-align: center;
+      font-size: 1.5rem;
+      padding: 1rem;
+      border-top-left-radius: 10px;
+      border-top-right-radius: 10px;
+    }
+    .card-body {
+      padding: 1.5rem;
+    }
+    .btn-custom {
+      padding: 0.75rem 2rem;
+      font-size: 1.25rem;
+      border-radius: 50px;
+      transition: transform 0.3s ease;
+    }
+    .btn-custom:hover {
+      transform: scale(1.05);
+    }
+    .download-buttons {
+      margin-top: 1rem;
+    }
+    /* Spinner / Progress Indicator */
+    .spinner-container {
+      text-align: center;
+      margin-top: 1rem;
+    }
+    .d-none {
+      display: none;
     }
     /* Footer */
     footer {
-      text-align: center;
-      padding: 1rem;
-      background: rgba(0, 0, 0, 0.7);
-      position: fixed;
-      bottom: 0;
-      width: 100%;
+      background-color: #343a40;
       color: #ccc;
+      padding: 1.5rem 0;
+      text-align: center;
     }
   </style>
 </head>
 <body>
-  <!-- Spinner Overlay (hidden by default) -->
-  <div id="spinnerOverlay" class="spinner-overlay d-none">
-    <div class="spinner-border text-light" role="status">
-      <span class="visually-hidden">טוען...</span>
-    </div>
-  </div>
+  <script>
+    // Authentication check: redirect to login if no token exists.
+    const token = localStorage.getItem('authToken');
+    if (!token) window.location.href = 'login.html';
+  </script>
   
-  <!-- Header / Hero -->
-  <header class="hero">
+  <!-- Navbar -->
+  <nav class="navbar navbar-expand-lg navbar-dark bg-dark sticky-top">
     <div class="container">
-      <h1>מחולל תוכניות שיעור מתקדם</h1>
-      <p>הזן פרטים לקבלת תוכנית שיעור מותאמת ומרהיבה</p>
+      <a class="navbar-brand" href="#">מחולל מערכי שיעור</a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarContent" 
+              aria-controls="navbarContent" aria-expanded="false" aria-label="תפריט">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarContent">
+         <ul class="navbar-nav ms-auto">
+           <li class="nav-item"><a class="nav-link active" href="dashboard.html">יצירת מערך</a></li>
+           <li class="nav-item"><a class="nav-link" href="#" id="logoutBtn">התנתק</a></li>
+         </ul>
+      </div>
+    </div>
+  </nav>
+  
+  <!-- Hero Section -->
+  <header class="hero">
+    <div class="container hero-content">
+      <h1>יצירת מערך שיעור</h1>
+      <p>צור את מערך השיעור שלך והורד אותה כ-PDF או Word</p>
     </div>
   </header>
   
-  <!-- Main Content -->
-  <div class="container my-4">
-    <div class="row justify-content-center">
-      <div class="col-12 col-md-8 col-lg-6">
-        <!-- Glassmorphic Form Card -->
-        <div class="glass-card">
-          <h2 class="text-center mb-4">פרטי תוכנית השיעור</h2>
-          <form id="lessonForm">
-            <div class="mb-3">
-              <label for="ageGroup" class="form-label">קבוצת גיל</label>
-              <select class="form-select" id="ageGroup" name="ageGroup">
-                <option value="preschool">גיל הרך</option>
-                <option value="kindergarten">גן ילדים</option>
-                <option value="elementary">יסודי</option>
-              </select>
-            </div>
-            <div class="mb-3">
-              <label for="activityType" class="form-label">סוג פעילות</label>
-              <select class="form-select" id="activityType" name="activityType">
-                <option value="creative">יצירתית</option>
-                <option value="academic">חינוכית</option>
-                <option value="physical">פיזית</option>
-              </select>
-            </div>
-            <div class="mb-3">
-              <label for="goal" class="form-label">מטרה</label>
-              <input type="text" class="form-control" id="goal" name="goal" placeholder="הזן מטרה לימודית" required>
-            </div>
-            <div class="d-grid">
-              <button type="submit" class="btn btn-primary btn-custom">צור תוכנית</button>
-            </div>
-          </form>
-        </div>
-        
-        <!-- Result Card -->
-        <div id="resultCard" class="glass-card mt-4 d-none fade-in">
-          <h3 class="text-center">תוכנית השיעור שנוצרה</h3>
-          <pre id="lessonOutput" class="bg-light p-3 rounded" style="max-height: 300px; overflow-y: auto;"></pre>
-          <div class="d-flex justify-content-center gap-3 mt-3">
-            <button id="downloadPDF" class="btn btn-success btn-custom">
-              <i class="fas fa-file-pdf me-2"></i>PDF
-            </button>
-            <button id="downloadWord" class="btn btn-info btn-custom">
-              <i class="fas fa-file-word me-2"></i>Word
-            </button>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
+  <!-- Dashboard Content -->
+  <section class="dashboard-container">
+    <div class="container">
+      <div class="row justify-content-center mb-5">
+        <div class="col-md-8">
+          <div class="card">
+            <div class="card-header">יצירת מערך</div>
+            <div class="card-body">
+              <form id="lessonForm">
+                <div class="mb-3">
+                  <label for="ageGroup" class="form-label">קבוצת גיל:</label>
+                  <select id="ageGroup" name="ageGroup" class="form-select">
+                    <option value="preschool">גיל הרך</option>
+                    <option value="kindergarten">גן ילדים</option>
+                    <option value="elementary">יסודי</option>
+                  </select>
+                </div>
+                <div class="mb-3">
+                  <label for="activityType" class="form-label">סוג פעילות:</label>
+                  <select id="activityType" name="activityType" class="form-select">
+                    <option value="creative">יצירתית</option>
+                    <option value="academic">חינוכית</option>
+                    <option value="physical">פיזית</option>
+                    <option value="game">משחקית</option>
+                  </select>
+                </div>
+                <div class="mb-3">
+                  <label for="goal" class="form-label">מטרה אופרטיבית:</label>
+                  <input type="text" id="goal" name="goal" class="form-control" placeholder="הזן מטרה אופרטיבית" required>
+                </div>
+                <div class="d-grid">
+                  <button type="submit" class="btn btn-primary btn-custom">
+                    <i class="fas fa-magic me-2"></i>צור מערך
+                  </button>
+                </div>
+              </form>
+              
+              <!-- Progress Indicator -->
+              <div id="loadingIndicator" class="spinner-container d-none">
+                <div class="spinner-border text-primary" role="status">
+                  <span class="visually-hidden">טוען...</span>
+                </div>
+              </div>
+              
+              <!-- Lesson Plan Display & Download Options -->
+              <div id="lessonResult" class="mt-4 d-none">
+                <h4>מערך השיעור שנוצרה:</h4>
+                <pre id="lessonOutput"></pre>
+                <div class="download-buttons">
+                  <button id="downloadPDF" class="btn btn-success btn-custom me-3">
+                    <i class="fas fa-file-pdf me-2"></i>הורד כ-PDF
+                  </button>
+                  <button id="downloadWord" class="btn btn-info btn-custom">
+                    <i class="fas fa-file-word me-2"></i>הורד כ-Word
+                  </button>
+                </div>
+              </div>
+              
+            </div><!-- .card-body -->
+          </div><!-- .card -->
+        </div><!-- .col-md-8 -->
+      </div><!-- .row -->
+    </div><!-- .container -->
+  </section>
   
   <!-- Footer -->
   <footer>
-    <p>© 2025 כל הזכויות שמורות - מחולל תוכניות שיעור</p>
+    <div class="container">
+      <p>© 2025 כל הזכויות שמורות - מחולל מערכי שיעור</p>
+    </div>
   </footer>
   
   <!-- Bootstrap JS Bundle -->
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-  <!-- jsPDF Library -->
+  <!-- jsPDF for PDF generation -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
-  
   <script>
-    // Ensure user is authenticated
-    if (!localStorage.getItem('authToken')) {
+    // Logout functionality
+    document.getElementById('logoutBtn').addEventListener('click', () => {
+      localStorage.removeItem('authToken');
+      localStorage.removeItem('user');
       window.location.href = 'login.html';
-    }
+    });
     
-    // Handle lesson generation using plain text response
+    // Handle Lesson Generation using plain text response
     document.getElementById('lessonForm').addEventListener('submit', async (e) => {
       e.preventDefault();
       
-      // Show spinner overlay and hide previous result
-      const spinnerOverlay = document.getElementById('spinnerOverlay');
-      spinnerOverlay.classList.remove('d-none');
-      const resultCard = document.getElementById('resultCard');
-      resultCard.classList.add('d-none');
+      // Show progress indicator and hide previous results
+      document.getElementById('loadingIndicator').classList.remove('d-none');
+      document.getElementById('lessonResult').classList.add('d-none');
       
       const ageGroup = document.getElementById('ageGroup').value;
       const activityType = document.getElementById('activityType').value;
       const goal = document.getElementById('goal').value;
-      const token = localStorage.getItem('authToken'); // Ensure token exists
-      
       const payload = { action: "generateLesson", ageGroup, activityType, goal, token };
       
       try {
@@ -227,15 +241,16 @@
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify(payload)
         });
-        if (!response.ok) throw new Error('תקלה ביצירת תוכנית השיעור');
-        // Use response.text() since we expect plain text
+        if (!response.ok) throw new Error('תקלה ביצירת מערך השיעור');
+        // Use response.text() to handle plain text response
         const lessonPlanText = await response.text();
         document.getElementById('lessonOutput').textContent = lessonPlanText;
-        resultCard.classList.remove('d-none');
+        document.getElementById('lessonResult').classList.remove('d-none');
       } catch (error) {
         alert(error.message);
       } finally {
-        spinnerOverlay.classList.add('d-none');
+        // Hide progress indicator
+        document.getElementById('loadingIndicator').classList.add('d-none');
       }
     });
     
@@ -249,12 +264,12 @@
       doc.save('lesson.pdf');
     });
     
-    // Download as Word document using HTML-to-Word approach
+    // Download as Word document using a simple HTML-to-Word approach
     document.getElementById('downloadWord').addEventListener('click', () => {
       const lessonText = document.getElementById('lessonOutput').textContent;
       const htmlContent = `
         <html xmlns:o="urn:schemas-microsoft-com:office:office" xmlns:w="urn:schemas-microsoft-com:office:word" xmlns="http://www.w3.org/TR/REC-html40">
-          <head><meta charset="utf-8"><title>תוכנית שיעור</title></head>
+          <head><meta charset="utf-8"><title>מערך שיעור</title></head>
           <body><pre>${lessonText}</pre></body>
         </html>`;
       const blob = new Blob(['\ufeff', htmlContent], { type: 'application/msword' });
