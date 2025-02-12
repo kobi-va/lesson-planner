@@ -211,7 +211,7 @@
       const goal = document.getElementById('goal').value;
       const payload = { action: "generateLesson", ageGroup, activityType, goal, token };
       try {
-        const response = await fetch('https://hook.make.com/your_generateLesson_webhook', {
+        const response = await fetch('https://hook.eu2.make.com/3vs2y5sidq5fq3uux5ee9xgnkqz2zt52', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify(payload)
