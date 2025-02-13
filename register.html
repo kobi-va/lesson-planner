@@ -11,7 +11,7 @@
     <!-- React and ReactDOM (UMD Builds) -->
     <script src="https://unpkg.com/react@18/umd/react.development.js"></script>
     <script src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
-    <!-- Babel Standalone -->
+    <!-- Babel Standalone for in-browser JSX compilation -->
     <script src="https://unpkg.com/babel-standalone@6/babel.min.js"></script>
     <style>
       :root {
@@ -23,16 +23,16 @@
         background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
       }
       .glass-card {
-        background: rgba(255, 255, 255, 0.1);
+        background: rgba(255,255,255,0.1);
         backdrop-filter: blur(10px);
         border-radius: 15px;
-        box-shadow: 0 8px 32px rgba(31, 38, 135, 0.37);
+        box-shadow: 0 8px 32px rgba(31,38,135,0.37);
       }
     </style>
   </head>
   <body class="min-h-screen text-white">
     <div id="root"></div>
-    <script type="text/babel">
+    <script type="text/babel" data-presets="react">
       function Register() {
         const [name, setName] = React.useState("");
         const [email, setEmail] = React.useState("");
@@ -110,8 +110,7 @@
                 </button>
               </form>
               <p className="mt-4 text-center">
-                כבר יש לך חשבון?{" "}
-                <a href="login.html" className="underline">התחבר כאן</a>
+                כבר יש לך חשבון? <a href="login.html" className="underline">התחבר כאן</a>
               </p>
             </div>
           </div>
