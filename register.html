@@ -11,7 +11,7 @@
     <!-- React and ReactDOM -->
     <script src="https://unpkg.com/react@18/umd/react.development.js"></script>
     <script src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
-    <!-- Babel (for development only – for production, precompile your code) -->
+    <!-- Babel -->
     <script src="https://unpkg.com/babel-standalone@6/babel.min.js"></script>
     <style>
       :root {
@@ -32,7 +32,7 @@
   </head>
   <body class="min-h-screen text-white">
     <div id="root"></div>
-    <script type="text/babel">
+    <script type="text/babel" data-presets="react">
       function Register() {
         const [name, setName] = React.useState("");
         const [email, setEmail] = React.useState("");
@@ -113,7 +113,7 @@
                     <>
                       <i className="fas fa-spinner fa-spin mr-2"></i> טוען...
                     </>
-                  ) : "הרשם"}
+                  ) : "הרשום"}
                 </button>
               </form>
               <p className="mt-4 text-center">
