@@ -1,152 +1,89 @@
 <!DOCTYPE html>
 <html lang="he" dir="rtl">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>מחולל מערכי שיעור - דף הבית</title>
-  <!-- Bootstrap RTL CSS -->
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.rtl.min.css">
-  <!-- FontAwesome for icons -->
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-  <!-- Google Fonts -->
-  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
-  <style>
-    /* Global Styles */
-    body {
-      font-family: 'Poppins', sans-serif;
-      background-color: #f0f2f5;
-      margin: 0;
-      padding: 0;
-    }
-    /* Navbar */
-    .navbar {
-      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-    }
-    .navbar-brand {
-      font-weight: 600;
-      font-size: 1.75rem;
-    }
-    /* Hero Section */
-    header.hero {
-      background: linear-gradient(135deg, #00539C 0%, #007BFF 100%), url('https://via.placeholder.com/1920x800?text=Professional+Design') center/cover no-repeat;
-      position: relative;
-      height: 100vh;
-      display: flex;
-      align-items: center;
-      color: #fff;
-    }
-    header.hero::before {
-      content: '';
-      position: absolute;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      background: rgba(0,0,0,0.5);
-      z-index: 1;
-    }
-    .hero-content {
-      position: relative;
-      z-index: 2;
-      text-align: center;
-      width: 100%;
-      padding: 0 1rem;
-    }
-    .hero-content h1 {
-      font-size: 4rem;
-      margin-bottom: 1rem;
-      animation: fadeInDown 1s ease-out;
-    }
-    .hero-content p {
-      font-size: 1.5rem;
-      margin-bottom: 2rem;
-      animation: fadeInUp 1s ease-out;
-    }
-    .btn-custom {
-      padding: 0.75rem 2rem;
-      font-size: 1.25rem;
-      border-radius: 50px;
-      transition: transform 0.3s ease;
-    }
-    .btn-custom:hover {
-      transform: scale(1.05);
-    }
-    /* Footer */
-    footer {
-      background-color: #343a40;
-      color: #ccc;
-      padding: 1.5rem 0;
-      text-align: center;
-    }
-    /* Animations */
-    @keyframes fadeInDown {
-      from { opacity: 0; transform: translateY(-20px); }
-      to { opacity: 1; transform: translateY(0); }
-    }
-    @keyframes fadeInUp {
-      from { opacity: 0; transform: translateY(20px); }
-      to { opacity: 1; transform: translateY(0); }
-    }
-    /* Responsive Adjustments */
-    @media (max-width: 768px) {
-      .hero-content h1 {
-        font-size: 2.5rem;
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>מחולל תוכניות שיעור מתקדם - דף הבית</title>
+    <!-- Tailwind CSS (CDN) -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Chart.js (CDN) -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@3.7.0/dist/chart.min.js"></script>
+    <!-- React and ReactDOM (UMD Builds) -->
+    <script src="https://unpkg.com/react@18/umd/react.development.js"></script>
+    <script src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
+    <!-- Babel Standalone for in-browser JSX compilation -->
+    <script src="https://unpkg.com/babel-standalone@6/babel.min.js"></script>
+    <style>
+      :root {
+        --primary-color: #4b79a1;
+        --secondary-color: #283e51;
+        --accent-color: #ff6f61;
       }
-      .hero-content p {
-        font-size: 1.2rem;
+      body {
+        background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
       }
-    }
-  </style>
-</head>
-<body>
-  <!-- Auto-redirect if authenticated -->
-  <script>
-    const token = localStorage.getItem('authToken');
-    if (token) {
-      window.location.href = 'dashboard.html';
-    }
-  </script>
-
-  <!-- Navigation Bar -->
-  <nav class="navbar navbar-expand-lg navbar-dark bg-dark sticky-top">
-    <div class="container">
-      <a class="navbar-brand" href="#">מחולל מערכי שיעור</a>
-      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarContent" aria-controls="navbarContent" aria-expanded="false" aria-label="תפריט">
-        <span class="navbar-toggler-icon"></span>
-      </button>
-      <div class="collapse navbar-collapse" id="navbarContent">
-        <ul class="navbar-nav ms-auto">
-          <li class="nav-item"><a class="nav-link active" href="index.html">דף הבית</a></li>
-          <li class="nav-item"><a class="nav-link" href="login.html">התחבר</a></li>
-          <li class="nav-item"><a class="nav-link" href="register.html">הרשם</a></li>
-        </ul>
-      </div>
-    </div>
-  </nav>
-
-  <!-- Hero Section -->
-  <header class="hero">
-    <div class="container hero-content">
-      <h1>מחולל מערכי שיעור</h1>
-      <div>
-        <a href="login.html" class="btn btn-primary btn-custom me-3">
-          <i class="fas fa-sign-in-alt me-2"></i>התחבר
-        </a>
-        <a href="register.html" class="btn btn-success btn-custom">
-          <i class="fas fa-user-plus me-2"></i>הרשם
-        </a>
-      </div>
-    </div>
-  </header>
-
-  <!-- Footer -->
-  <footer>
-    <div class="container">
-      <p>© 2025 כל הזכויות שמורות - מחולל מערכי שיעור</p>
-    </div>
-  </footer>
-
-  <!-- Bootstrap JS Bundle -->
-  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-</body>
+      .glass-card {
+        background: rgba(255, 255, 255, 0.1);
+        backdrop-filter: blur(10px);
+        border-radius: 15px;
+        box-shadow: 0 8px 32px rgba(31, 38, 135, 0.37);
+      }
+      .fade-in {
+        animation: fadeIn 0.5s ease-in-out;
+      }
+      @keyframes fadeIn {
+        from { opacity: 0; }
+        to { opacity: 1; }
+      }
+    </style>
+  </head>
+  <body class="min-h-screen text-white">
+    <div id="root"></div>
+    <script type="text/babel">
+      function Landing() {
+        return (
+          <div className="min-h-screen flex flex-col">
+            {/* Header */}
+            <header className="bg-black bg-opacity-50 py-8">
+              <div className="container mx-auto text-center">
+                <h1 className="text-4xl font-bold mb-2">מחולל תוכניות שיעור מתקדם</h1>
+                <p className="text-xl">צור תוכניות שיעור מעוצבות ומותאמות אישית בקלות ובמהירות</p>
+              </div>
+            </header>
+            {/* Main Content */}
+            <main className="flex-grow container mx-auto px-4 py-16">
+              <div className="glass-card p-8 max-w-3xl mx-auto text-center fade-in">
+                <h2 className="text-3xl font-bold mb-4">ברוכים הבאים!</h2>
+                <p className="mb-6">
+                  המערכת שלנו מאפשרת לך ליצור תוכניות שיעור ייחודיות ומותאמות אישית תוך שימוש בטכנולוגיה המתקדמת ביותר.
+                </p>
+                <div className="flex flex-col sm:flex-row justify-center gap-4">
+                  <a
+                    href="login.html"
+                    className="py-3 px-6 bg-blue-600 hover:bg-blue-700 rounded text-white font-bold"
+                  >
+                    התחבר
+                  </a>
+                  <a
+                    href="register.html"
+                    className="py-3 px-6 bg-green-600 hover:bg-green-700 rounded text-white font-bold"
+                  >
+                    הירשם
+                  </a>
+                </div>
+              </div>
+            </main>
+            {/* Footer */}
+            <footer className="bg-black bg-opacity-50 py-4">
+              <div className="container mx-auto text-center text-sm">
+                © 2025 כל הזכויות שמורות - מחולל תוכניות שיעור מתקדם
+              </div>
+            </footer>
+          </div>
+        );
+      }
+      
+      ReactDOM.createRoot(document.getElementById("root")).render(<Landing />);
+    </script>
+  </body>
 </html>
