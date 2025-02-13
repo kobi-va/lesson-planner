@@ -41,6 +41,20 @@
     <div id="root"></div>
     <script type="text/babel">
       function Landing() {
+        const [loggedIn, setLoggedIn] = React.useState(false);
+
+        React.useEffect(() => {
+          // Check if an auth token exists in localStorage
+          setLoggedIn(!!localStorage.getItem("authToken"));
+        }, []);
+
+        const handleLogout = () => {
+          localStorage.removeItem("authToken");
+          localStorage.removeItem("user");
+          setLoggedIn(false);
+          window.location.href = "login.html";
+        };
+
         return (
           <div className="min-h-screen flex flex-col">
             {/* Header */}
@@ -58,18 +72,37 @@
                   המערכת שלנו מאפשרת לך ליצור תוכניות שיעור ייחודיות ומותאמות אישית תוך שימוש בטכנולוגיה המתקדמת ביותר.
                 </p>
                 <div className="flex flex-col sm:flex-row justify-center gap-4">
-                  <a
-                    href="login.html"
-                    className="py-3 px-6 bg-blue-600 hover:bg-blue-700 rounded text-white font-bold"
-                  >
-                    התחבר
-                  </a>
-                  <a
-                    href="register.html"
-                    className="py-3 px-6 bg-green-600 hover:bg-green-700 rounded text-white font-bold"
-                  >
-                    הירשם
-                  </a>
+                  {loggedIn ? (
+                    <>
+                      <a
+                        href="dashboard.html"
+                        className="py-3 px-6 bg-blue-600 hover:bg-blue-700 rounded text-white font-bold"
+                      >
+                        לוח בקרה
+                      </a>
+                      <button 
+                        onClick={handleLogout}
+                        className="py-3 px-6 bg-red-600 hover:bg-red-700 rounded text-white font-bold"
+                      >
+                        התנתק
+                      </button>
+                    </>
+                  ) : (
+                    <>
+                      <a
+                        href="login.html"
+                        className="py-3 px-6 bg-blue-600 hover:bg-blue-700 rounded text-white font-bold"
+                      >
+                        התחבר
+                      </a>
+                      <a
+                        href="register.html"
+                        className="py-3 px-6 bg-green-600 hover:bg-green-700 rounded text-white font-bold"
+                      >
+                        הירשם
+                      </a>
+                    </>
+                  )}
                 </div>
               </div>
             </main>
