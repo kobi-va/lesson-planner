@@ -3,7 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>יצירת תוכנית שיעור - דף הבית</title>
+    <title>יצירת תוכנית שיעור - לוח בקרה</title>
     <!-- Tailwind CSS (CDN) -->
     <script src="https://cdn.tailwindcss.com"></script>
     <!-- Chart.js (CDN) -->
@@ -23,10 +23,10 @@
         background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
       }
       .glass-card {
-        background: rgba(255, 255, 255, 0.1);
+        background: rgba(255,255,255,0.1);
         backdrop-filter: blur(10px);
         border-radius: 15px;
-        box-shadow: 0 8px 32px rgba(31, 38, 135, 0.37);
+        box-shadow: 0 8px 32px rgba(31,38,135,0.37);
       }
       .fade-in {
         animation: fadeIn 0.5s ease-in-out;
@@ -39,7 +39,7 @@
   </head>
   <body class="min-h-screen text-white">
     <div id="root"></div>
-    <script type="text/babel">
+    <script type="text/babel" data-presets="react">
       function Dashboard() {
         const [ageGroup, setAgeGroup] = React.useState("preschool");
         const [activityType, setActivityType] = React.useState("creative");
@@ -56,7 +56,7 @@
         const logout = () => {
           localStorage.removeItem("authToken");
           localStorage.removeItem("user");
-          window.location.href = "index.html";
+          window.location.href = "login.html";
         };
 
         const handleSubmit = async (e) => {
@@ -111,17 +111,13 @@
 
         return (
           <div className="min-h-screen flex flex-col">
-            {/* Header with Logout Option */}
-            <header className="relative bg-black bg-opacity-50 py-4">
+            <header className="bg-black bg-opacity-50 py-4 relative">
               <div className="container mx-auto text-center">
                 <h1 className="text-3xl font-bold">מחולל תוכניות שיעור</h1>
                 <p className="text-sm">הזן פרטים לקבלת תוכנית שיעור מותאמת אישית</p>
               </div>
-              {/* Logout Button */}
               <div className="absolute top-4 right-4">
-                <button onClick={logout} className="text-sm underline">
-                  התנתק
-                </button>
+                <button onClick={logout} className="underline text-sm">התנתק</button>
               </div>
             </header>
             <main className="flex-grow container mx-auto px-4 py-8">
