@@ -83,14 +83,6 @@
           }
         };
 
-        const downloadPDF = () => {
-          const { jsPDF } = window.jspdf;
-          const doc = new jsPDF();
-          const lines = doc.splitTextToSize(lessonPlan, 180);
-          doc.text(lines, 10, 10);
-          doc.save("lesson.pdf");
-        };
-
         const downloadWord = () => {
           const htmlContent = `
             <html xmlns:o="urn:schemas-microsoft-com:office:office" xmlns:w="urn:schemas-microsoft-com:office:word" xmlns="http://www.w3.org/TR/REC-html40">
@@ -102,7 +94,7 @@
           const url = URL.createObjectURL(blob);
           const link = document.createElement("a");
           link.href = url;
-          link.download = "lesson.doc";
+          link.download = "lesson_plan.docx";
           document.body.appendChild(link);
           link.click();
           document.body.removeChild(link);
@@ -176,9 +168,6 @@
                     {lessonPlan}
                   </pre>
                   <div className="mt-4 flex justify-center gap-4">
-                    <button onClick={downloadPDF} className="py-2 px-4 bg-green-600 hover:bg-green-700 rounded text-white font-bold flex items-center">
-                      <i className="fas fa-file-pdf mr-2"></i> PDF
-                    </button>
                     <button onClick={downloadWord} className="py-2 px-4 bg-blue-600 hover:bg-blue-700 rounded text-white font-bold flex items-center">
                       <i className="fas fa-file-word mr-2"></i> Word
                     </button>
